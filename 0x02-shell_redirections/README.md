@@ -1,1 +1,1 @@
-Last lines of a file
+displays the third line of the file iacta

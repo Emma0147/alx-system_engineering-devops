@@ -1,1 +1,1 @@
-displays the 10 newest files in the current directory
+lines containing the pattern “root” from the file

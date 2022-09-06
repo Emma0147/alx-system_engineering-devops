@@ -1,1 +1,1 @@
-script that displays the result
+converts a number from base 2 to base 10

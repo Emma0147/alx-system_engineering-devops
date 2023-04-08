@@ -33,18 +33,18 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-frontend  ehoneah-frontend-http
+frontend  emma-frontend-http
         bind *:80
         mode http
 	http-request set-header X-Forwarded-Proto http
-        default_backend ehoneah-backend
+        default_backend emma-backend
 
-frontend ehoneah-frontend-https
-	bind *:443 ssl crt /etc/haproxy/certs/www.ehoneah.tech.pem
+frontend emma-frontend-https
+	bind *:443 ssl crt /etc/haproxy/certs/www.zamba.tech.pem
 	http-request set-header X-Forwarded-Proto https
-	default_backend ehoneah-backend
+	default_backend emma-backend
 
-backend ehoneah-backend
+backend emma-backend
         balance roundrobin
         server 153086-web-01 54.160.70.225:80 check
         server 153086-web-02 100.26.210.109:80 check

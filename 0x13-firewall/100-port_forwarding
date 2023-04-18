@@ -1,0 +1,53 @@
+# NAT table rules
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+COMMIT
+
+# Begin UFW rules
+*filter
+:ufw-before-input - [0:0]
+:ufw-before-output - [0:0]
+:ufw-before-forward - [0:0]
+:ufw-after-input - [0:0]
+:ufw-after-output - [0:0]
+:ufw-after-forward - [0:0]
+:ufw-logging-input - [0:0]
+:ufw-logging-output - [0:0]
+:ufw-logging-forward - [0:0]
+:ufw-reject-input - [0:0]
+:ufw-reject-output - [0:0]
+:ufw-reject-forward - [0:0]
+:ufw-track-input - [0:0]
+:ufw-track-output - [0:0]
+:ufw-track-forward - [0:0]
+
+# Default policies
+:INPUT DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+
+# Allow SSH, HTTP and HTTPS
+-A ufw-before-input -p tcp -m tcp --dport 22 -j ACCEPT
+-A ufw-before-input -p tcp -m tcp --dport 80 -j ACCEPT
+-A ufw-before-input -p tcp -m tcp --dport 443 -j ACCEPT
+
+# Allow loopback traffic
+-A ufw-before-input -i lo -j ACCEPT
+
+# Allow established and related traffic
+-A ufw-before-input -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A ufw-before-output -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Allow outgoing DNS requests
+-A ufw-before-output -p udp -m udp --dport 53 -j ACCEPT
+-A ufw-before-output -p tcp -m tcp --dport 53 -j ACCEPT
+
+# Reject invalid packets
+-A ufw-before-input -m conntrack --ctstate INVALID -j ufw-reject-input
+-A ufw-before-output -m conntrack --ctstate INVALID -j ufw-reject-output
+-A ufw-before-forward -m conntrack --ctstate INVALID -j ufw-reject-forward
+
+# Log dropped packets
+-A ufw-reject-input -m limit --limit 3/min --limit-burst 10 -j LOG --log-prefix "[UFW BLOCK INPUT]: " --log-tcp-options --log-ip-options
+-A u

@@ -44,7 +44,7 @@ symbolic-links=0
 server-id  =  1
 
 # setting the base name & location of mysql bunary log file
-log_bin  = /var/log/mysql/mysql-bin.log
+log_bin = /var/log/mysql/mysql_bin_log.log
 
 # name of database to replicate
 binlog_do_db    = tyrell_corp

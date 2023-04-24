@@ -1,5 +1,8 @@
+#!/usr/bin/python3
+"""Exports to-do list information for a given employee ID to CSV format."""
 import requests
 import csv
+import sys
 
 def get_employee_todo_list(employee_id):
     url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"

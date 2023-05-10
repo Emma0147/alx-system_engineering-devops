@@ -1,1 +1,1 @@
-Webstack monitoring
+Solutions to Webstack monitoring
